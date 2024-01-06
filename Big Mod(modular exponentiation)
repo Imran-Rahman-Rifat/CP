@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define endl '\n';
+#define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+typedef long long int ll;
+ll bigmod(ll x,ll n,ll m)
+{
+    ll y;
+    if(n==0) return 1;
+    else if(n%2==0){
+         y=bigmod(x,n/2,m);
+        return (y*y)%m;
+    }
+    else{
+        return (((x%m)*bigmod(x,n-1,m))%m);
+    }
+}
+int main()
+{
+     ll ans=bigmod(2,10,10);
+     cout<<ans<<endl;
+
+}
+//https://www.shawonruet.com/2017/06/blog-post.html
+//https://www.shafaetsplanet.com/planetcoding/?p=936

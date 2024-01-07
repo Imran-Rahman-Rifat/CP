@@ -17,6 +17,7 @@ ll bigmod(ll x,ll n,ll m)
 }
 int main()
 {
+     fast;
      ll ans=bigmod(2,10,10);
      cout<<ans<<endl;
 

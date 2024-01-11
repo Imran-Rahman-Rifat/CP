@@ -21,6 +21,7 @@ void seive()
 int main()
 {
      fast;
+    seive();
     
 
 }

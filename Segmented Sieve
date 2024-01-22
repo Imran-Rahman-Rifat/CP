@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+typedef long long int ll;
+const ll N=1000005;
+bool isPrime[N];
+vector<ll> primes;
+void sieve()
+{
+    isPrime[1]=true;
+    for(int i=4;i<=N;i+=2) isPrime[i]=true;
+    primes.push_back(2);
+    for(ll i=3;i<N;i++){
+        if(isPrime[i]) continue;
+        primes.push_back(i);
+        for(ll j=i*i;j<N;j+=i+i){
+            isPrime[j]=true;
+        }
+    }
+}
+void segmentedSieve(ll L, ll R)
+{
+ bool isPrime[R-L+1];
+ for(int i=0 ; i<=R-L+1 ; i++)
+    isPrime[i]=true;
+
+ if(L==1)
+    isPrime[0]=false;
+
+ for(int i=0 ; primes[i]*primes[i]<=R ; i++)
+ {
+    ll curPrime=primes[i];
+    ll base=curPrime*curPrime;
+    if(base<L)
+    {
+       base=((L+curPrime-1)/curPrime)*curPrime;
+    }
+    for(ll j=base ; j<=R ; j+=curPrime)
+    isPrime[j-L]=false;
+ }
+ for(int i=0 ; i<=R-L ; i++)
+ {
+    if(isPrime[i]==true)
+        cout<<L+i<<endl;
+ }
+ cout<<endl;
+}
+int main()
+{
+     int t;
+    cin>>t;
+    sieve();
+    segmentedSieve(1,100);
+}
+//https://medium.com/%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%8B%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%BE%E0%A6%AE%E0%A6%BF%E0%A6%82-%E0%A6%AA%E0%A6%BE%E0%A6%A4%E0%A6%BE/segmented-sieve-number-theory-1af0602dba39

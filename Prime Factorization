@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+typedef long long int ll;
+vector<int> primeFact;
+void prime_factors(ll n)
+{
+    while(n%2==0){
+        primeFact.push_back(2);
+        n=n/2;
+    }
+    for(int i=3;i*i<=n;i+=2){
+        while(n%i==0){
+            primeFact.push_back(i);
+            n=n/i;
+        }
+    }
+    if(n>2) primeFact.push_back(n);
+}
+int main()
+{
+    fast;
+    prime_factors(12);
+    for(int i=0;i<primeFact.size();i++) cout<<primeFact[i]<<" ";
+}
+//O(sqrt(n))

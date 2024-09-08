@@ -2,25 +2,69 @@
 using namespace std;
 #define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 typedef long long int ll;
-vector<int> primeFact;
-void prime_factors(ll n)
-{
-    while(n%2==0){
+
+const ll N=1e6+7;
+
+bool is_prime[N];
+vector<ll> primes;
+vector<ll> primeFact;
+//O(sqrt(n))
+void prime_factors(ll n) {
+    while (n % 2 == 0) {
         primeFact.push_back(2);
-        n=n/2;
+        n = n / 2;
     }
-    for(int i=3;i*i<=n;i+=2){
-        while(n%i==0){
+
+    for (int i = 3; i * i <= n; i += 2) {
+        while (n % i == 0) {
             primeFact.push_back(i);
-            n=n/i;
+            n = n / i;
         }
     }
-    if(n>2) primeFact.push_back(n);
+
+    if (n > 2) {
+        primeFact.push_back(n);
+    }
+}
+
+// sieve with smallest prime factors (spf)
+int spf[N];
+void sieve_spf() {
+  for (int i = 2; i < N; i++) {
+    spf[i] = i;
+  }
+  for (int i = 2; i * i < N; i++) {
+    if (spf[i] == i) {
+      for (int j = i * i; j < N; j += i) {
+        spf[j] = min(spf[j], i);
+      }
+    }
+  }
+  for (int i = 2; i < N; i++) {
+    if (spf[i] == i) {
+      primes.push_back(i);
+    }
+  }
+}
+// A O(log n) function returning primefactorization
+// by dividing by smallest prime factor at every step
+void getFactorization(ll x) {
+    while(x != 1){
+        primeFact.push_back(spf[x]);
+        x = x / spf[x];
+    }
 }
 int main()
 {
     fast;
-    prime_factors(12);
-    for(int i=0;i<primeFact.size();i++) cout<<primeFact[i]<<" ";
+    sieve_spf();
+    ll x=12246;
+    prime_factors(x);
+    for(int i= 0 ;i < primeFact.size(); i++) cout << primeFact[i] << " ";
+    cout << endl;
+    primeFact.clear();
+    getFactorization(x);
+    for(int i= 0 ;i < primeFact.size(); i++) cout << primeFact[i] << " ";
+    cout << endl;
+
 }
-//O(sqrt(n))
